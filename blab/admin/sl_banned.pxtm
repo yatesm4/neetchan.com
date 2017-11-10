@@ -1,0 +1,58 @@
+<?php
+
+$query='DELETE FROM '.$dbss['prfx']."_ban WHERE timestamp<$timestamp";
+neutral_query($query);
+
+$query='SELECT * FROM '.$dbss['prfx'].'_ban';
+$result=neutral_query($query);
+
+if(neutral_num_rows($result)<1){$empty='<tr class="tr1" ><td colspan="4">'.$lang['no_busr'].'</td></tr>';}else{$empty='';}
+?>
+
+<table><tr>
+<td style="vertical-align:top" class="navbar2">
+<div style="margin:10px;text-align:right;white-space:nowrap">
+<?php include 'admin/menu_stats.pxtm';?>
+</div></td><td style="vertical-align:top" class="content">
+
+<p class="title"><?php print $lang['banned'];?></p>
+<p style="text-align:justify"><?php print $lang['moduc2'];?></p>
+
+<table class="tbl">
+<tr><td class="tr0" colspan="4"></td></tr>
+
+<?php
+print $empty;$tr=0;
+
+switch($settings['default_timeform']){
+case 3:$format='d.m.Y H:i:s';break;
+case 4:$format='m/d/Y h:i:s A';break;
+default :$format='Y-m-d H:i:s';break;}
+
+while($row=neutral_fetch_array($result)){
+
+$bid=(int)$row['ban_id'];
+$bname=htmrem($row['ban_name']);
+$bname='<a href="admin.php?q=user&amp;u='.$bid.'">'.$bname.'</a>';
+$reason=htmrem($row['ban_reason']);
+$ban_ts=gmdate($format,$row['timestamp']+$settings['acp_timezone']*60);
+
+if($tr==1){$tr=2;}else{$tr=1;}
+print '<tr class="tr'.$tr.'">';
+
+print '<td><b>'.$bname.'</b></td>';
+print '<td>'.$row['ban_ip'].'</td>';
+print '<td>'.$reason;
+print '<div style="text-align:right"><br />'.$lang['expire'].': '.$ban_ts.'</div></td>';
+print '<td><a href="admin.php?unban='.$bid.'">'.$lang['unban'].'</a></td>';
+
+print '</tr>';
+
+}
+
+?>
+
+<tr><td class="tr0" colspan="4"></td></tr>
+</table>
+
+</td></tr></table>

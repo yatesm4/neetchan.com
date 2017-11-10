@@ -1,0 +1,7 @@
+<a href="admin.php"><?php print $lang['overview'];?></a> <b>&middot;</b><br />
+<a href="admin.php?q=iplog"><?php print $lang['iplog'];?></a> <b>&middot;</b><br />
+<a href="admin.php?q=online"><?php print $lang['u_online'];?></a> <b>&middot;</b><br />
+<a href="admin.php?q=banned"><?php print $lang['banned'];?></a> <b>&middot;</b><br />
+<a href="admin.php?q=chatters"><?php print $lang['top_chatt'];?></a> <b>&middot;</b><br />
+<a href="admin.php?q=messages"><?php print $lang['messages'];?></a> <b>&middot;</b><br />
+<a href="admin.php?q=paintings"><?php print $lang['paintings'];?></a> <b>&middot;</b><br />

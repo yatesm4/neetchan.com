@@ -1,0 +1,23 @@
+<?php
+
+require_once 'config.php';
+require_once 'incl/main.inc';
+
+dbconnect(); 
+
+print '<!DOCTYPE html><html><head><title>db to utf8</title></head><body><pre>';
+
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_ban CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_iplog CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_lines CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_online CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_paintings CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_settings CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_style CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_users CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci';
+
+for($i=0;$i<count($sql);$i++){neutral_query($sql[$i]);}
+
+print 'Database converted to utf8 to disable emoji...<br />Please set in <b>config.php</b>: $dbss[\'cset\']=\'utf8\';</pre></body></html>';
+
+?>

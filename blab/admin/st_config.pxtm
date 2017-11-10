@@ -1,0 +1,51 @@
+<table><tr>
+<td style="vertical-align:top" class="navbar2">
+<div style="margin:10px;text-align:right;white-space:nowrap">
+<?php include 'admin/menu_settings.pxtm';?>
+</div></td><td style="vertical-align:top" class="content">
+
+<p style="text-align:justify"><?php print $lang['st8_desc'];?></p>
+<table class="tbl">
+
+<tr class="tr1">
+<td class="tdr" style="width:150px"><?php print $lang['cnfg_1'];?>:</td>
+<td><b><?php print $dbss['type'];?></b></td>
+</tr>
+
+<tr class="tr2">
+<td class="tdr"><?php print $lang['cnfg_2'];?>:</td>
+<td><b><?php print $dbss['host'];?></b></td>
+</tr>
+<tr class="tr1">
+<td class="tdr"><?php print $lang['cnfg_3'];?>:</td>
+<td><b><?php print $dbss['name'];?></b></td>
+</tr>
+
+<tr class="tr2">
+<td class="tdr"><?php print $lang['cnfg_7'];?>:</td>
+<td><b><?php print $latest_mssg;?></b></td>
+</tr>
+
+<tr class="tr1">
+<td class="tdr"><?php print $lang['cnfg_8'];?>:</td>
+<td><?php if(is_array($bwords)){$b_words=implode(', ',$bwords);print $b_words;}?></td>
+</tr>
+
+<tr class="tr2">
+<td class="tdr"><?php print $lang['cnfg_9'];?>:</td>
+<td><b><?php print $topic;?></b></td>
+</tr>
+
+<tr class="tr1">
+<td class="tdr"><?php print $lang['pprefix'];?>:</td>
+<td><b><?php print $paint_prefix;?></b></td>
+</tr>
+
+<tr class="tr2">
+<td class="tdr"><?php print $lang['cnfg14'];?>:</td>
+<td><b><?php if(isset($anonymto)){print $anonymto;}else{print '0';}?></b></td>
+</tr>
+
+</table>
+
+</td></tr></table>

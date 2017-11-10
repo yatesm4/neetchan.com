@@ -1,0 +1,18 @@
+<table><tr>
+<td style="vertical-align:top" class="navbar2">
+<div style="margin:10px;text-align:right;white-space:nowrap">
+<?php include 'admin/menu_settings.pxtm';?>
+</div></td><td style="vertical-align:top" class="content">
+
+<?php 
+
+if(!isset($settings['int_version']) || $settings['int_version']<$int_version){?>
+<p style="text-align:justify"><?php print $lang['update_d2'];?> <br />&nbsp;<br />
+<input class="btn" type="button" value="<?php print $lang['update'];?>" onclick="window.location.href='admin.php?update=1'" />
+</p>
+
+<?php }else{?>
+<p style="text-align:justify"><?php print $lang['update_d1'];?></p>
+<?php }?>
+
+</td></tr></table>

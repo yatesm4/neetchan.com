@@ -1,0 +1,121 @@
+<?php
+$filter='';
+if(isset($_GET['u'])){$uid=(int)$_GET['u'];$filter=' / '.$lang['filter'].' UID: '.$uid;}else{$uid=0;}
+if(isset($_GET['i'])){$ipd=neutral_escape($_GET['i'],50,'str');$filter=' / '.$lang['filter'].' IP: '.$ipd;}else{$ipd='';}
+
+$where_clause='WHERE timestamp>0';
+if($uid>0){$where_clause.=' AND usr_id='.$uid;}
+if($ipd!=''){$where_clause.=' AND ipaddr=\''.$ipd.'\'';}
+
+$nores='<tr class="tr1"><td>'.$lang['no_result'].'</td></tr>';
+
+$query='SELECT * FROM '.$dbss['prfx']."_iplog $where_clause ORDER BY timestamp DESC LIMIT 100 OFFSET 0";
+$result=neutral_query($query);
+
+if(neutral_num_rows($result)>0){$nores='';}
+
+?>
+
+<script type="text/javascript">
+
+function count_txt(a,b){
+c=a.value.length; if(c>b){a.value=a.value.substr(0,b)}}
+
+function wbn(id,nm,ip,mm){
+document.getElementById('d1').style.display='none';
+
+sp1=document.getElementById('s1');
+sp2=document.getElementById('s2');
+sp4=document.getElementById('s4');
+sel=document.getElementById('sl');
+
+sel.style.display='block';
+
+document.forms.f1.bid.value=id;
+document.forms.f1.bnm.value=nm;
+document.forms.f1.bip.value=ip;
+document.forms.f1.typ.value=mm;
+
+
+document.getElementById('s3').innerHTML=nm;
+sp4.innerHTML=' &amp; ('+ip+')';
+
+if(mm==1){sp1.style.display='inline';sp2.style.display='none';sel.style.display='none'}
+if(mm>1){sp1.style.display='none';sp2.style.display='inline'}
+if(mm==3){sp4.style.display='inline';}else{sp4.style.display='none'}
+
+document.getElementById('d2').style.display='block';}
+
+function form_sub(){
+if(5>document.forms.f1.brs.value.length){
+document.forms.f1.brs.value='';document.forms.f1.brs.focus();return false}
+else{return true}}
+
+</script>
+<form id="f1" action="admin.php" method="post" style="margin:0;padding:0" onsubmit="return form_sub()">
+<table><tr>
+<td style="vertical-align:top" class="navbar2">
+<div style="margin:10px;text-align:right;white-space:nowrap">
+<?php include 'admin/menu_stats.pxtm';?>
+</div></td><td style="vertical-align:top" class="content">
+<p></p>
+<div id="d1">
+<div class="title"><?php print $lang['iplog'].$filter;?></div>
+<p style="text-align:justify"><?php print $lang['ipdesc'];?></p>
+
+<table class="tbl">
+<tr><td class="tr0" colspan="6"></td></tr>
+<?php
+print $nores;$tr=1;$ii=1;
+switch($settings['default_timeform']){
+case 3:$format='d.m.Y H:i';break;
+case 4:$format='m/d/Y h:i A';break;
+default :$format='Y-m-d H:i';break;}
+
+while($row=neutral_fetch_array($result)){
+$tmm=gmdate($format,$row['timestamp']+$settings['acp_timezone']*60);
+$name=htmrem($row['usr_name']);
+
+$yname='<a href="admin.php?q=user&amp;u='.$row['usr_id'].'">'.$name.'</a>';
+$zname=str_replace("'",'*',$name);
+
+print '<tr class="tr'.$tr.'"><td><b>'.$yname.'</b></td>';
+print '<td><b><a href="admin.php?q=messages&amp;u='.$row['usr_id'].'" style="text-decoration:none">M</a> &middot; <a href="admin.php?q=paintings&amp;u='.$row['usr_id'].'" style="text-decoration:none">P</a></b></td>';
+print '<td><a href="admin.php?q=iplog&amp;u='.$row['usr_id'].'">UID:'.$row['usr_id'].'</a>&nbsp;&nbsp;<a href="admin.php?q=iplog&amp;i='.$row['ipaddr'].'">'.$row['ipaddr'].'</a></td><td>'.$tmm.'</td>';
+print '<td><a href="#" onclick="wbn('.$row['usr_id'].',\''.$zname.'\',\''.$row['ipaddr'].'\',2)">'.$lang['ban'].'</a>&nbsp;';
+print '(<a href="#" onclick="wbn('.$row['usr_id'].',\''.$zname.'\',\''.$row['ipaddr'].'\',3)">'.$lang['ban_ip'].'</a>)</td></tr>';
+if($tr>1){$tr=1;}else{$tr=2;}$ii+=1;
+}
+?>
+<tr><td class="tr0" colspan="6"></td></tr>
+</table></div>
+
+
+<div id="d2" style="margin-top:5px;display:none">
+<input type="hidden" name="bid" value="" />
+<input type="hidden" name="bnm" value="" />
+<input type="hidden" name="bip" value="" />
+<input type="hidden" name="typ" value="" />
+<div class="tr2" style="text-align:justify;padding:12px;margin-top:5px">
+<span id="s1" style="display:none"><?php print $lang['s_warn'];?></span>
+<span id="s2" style="display:none"><?php print $lang['s_ban'];?></span> <span id="s3" style="font-weight:bold;text-decoration:underline">xxx</span><span id="s4" style="display:none"></span>.
+<?php print $lang['s_res'];?>
+</div>
+<br />
+<textarea name="brs" cols="30" rows="4" onblur="count_txt(this,128)" onkeypress="count_txt(this,128)" style="width:520px;height:40px"></textarea>
+<div id="sl" style="float:left;margin-top:5px">
+<select name="per">
+<option value="20">20 <?php print $lang['minutes'];?></option>
+<option value="120">2 <?php print $lang['hours'];?></option>
+<option value="2880">2 <?php print $lang['days'];?></option>
+<option value="20160">2 <?php print $lang['weeks'];?></option>
+</select>
+</div>
+<div style="float:right;margin-top:5px">
+<input type="button" class="btn" value="<?php print $lang['back'];?>" onclick="document.forms.f1.reset();document.getElementById('d2').style.display='none';document.getElementById('d1').style.display='block';" />
+<input type="button" class="btn" value="<?php print $lang['submit'];?>" onclick="fs=form_sub();if(fs){document.forms.f1.submit()}" />
+</div>
+<br style="clear:both" />
+<div class="tr2" style="text-align:justify;padding:12px;margin-top:5px"><?php print $lang['moduc2'];?></div>
+</div>
+</td></tr></table></form>

@@ -1,0 +1,22 @@
+.x_overal{color:#FFFFFF;background-color:#444}
+.x_accent_bb{border-bottom:1px solid #E91E63}
+.x_accent_bg{color:#FFFFFF;background-color:#E91E63}
+.x_accent_fg{color:#E91E63}
+.x_bcolor_bg{color:#FFFFFF;background-color:#222}
+.x_circle{border-radius:100%}
+
+hr{border:none;height:1px;margin-bottom:30px;background-color:#666}
+input,select,option,textarea{color:#fff;background-color:#444;font-size:12px;font-family:sans-serif}
+body,p,div,ul,li{font-size:13px;font-family:sans-serif}
+body{margin:0;padding:0;padding-bottom:60px;padding-top:20px}
+form{margin:0;padding:0} br{clear:both}
+input{box-sizing:border-box;text-align:center;border-width:0;border-radius:0;padding:5px}
+select{-moz-appearance:none;-webkit-appearance:none;text-align:center;border-width:0;border-radius:0;padding:5px}
+
+.round4{border-radius:5px}
+.pointer{cursor:pointer}
+.holder{width:640px;max-width:95%;margin:auto;text-align:justify}
+.holder .left{float:left;min-width:20%;margin-bottom:10px}
+.holder .right{float:right;margin-bottom:10px}
+.s120{width:120px;margin-left:5px}
+.s250{width:245px;margin-left:5px}

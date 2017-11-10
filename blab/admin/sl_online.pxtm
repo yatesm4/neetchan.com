@@ -1,0 +1,107 @@
+<?php
+
+$tpoint=$timestamp-30;
+$query='DELETE FROM '.$dbss['prfx'].'_online WHERE rtime<'.$tpoint;
+neutral_query($query);
+
+
+$query='SELECT usr_id AS uid, usr_name AS uname, usr_ip AS ip FROM '.$dbss['prfx'].'_online';
+$s_online=neutral_query($query); if(neutral_num_rows($s_online)<1){$empt1='<tr class="tr1" ><td colspan="8">'.$lang['no_chatt1'].'</td></tr>';}else{$empt1='';}
+
+?>
+
+<script type="text/javascript">
+
+function count_txt(a,b){
+c=a.value.length; if(c>b){a.value=a.value.substr(0,b)}}
+
+function wbn(id,nm,ip,mm){
+document.getElementById('d1').style.display='none';
+
+sp1=document.getElementById('s1');
+sp2=document.getElementById('s2');
+sp4=document.getElementById('s4');
+sel=document.getElementById('sl');
+
+sel.style.display='block';
+
+document.forms.f1.bid.value=id;
+document.forms.f1.bnm.value=nm;
+document.forms.f1.bip.value=ip;
+document.forms.f1.typ.value=mm;
+
+
+document.getElementById('s3').innerHTML=nm;
+sp4.innerHTML=' &amp; ('+ip+')';
+
+if(mm==1){sp1.style.display='inline';sp2.style.display='none';sel.style.display='none'}
+if(mm>1){sp1.style.display='none';sp2.style.display='inline'}
+if(mm==3){sp4.style.display='inline';}else{sp4.style.display='none'}
+
+document.getElementById('d2').style.display='block';}
+
+function form_sub(){
+if(5>document.forms.f1.brs.value.length){
+document.forms.f1.brs.value='';document.forms.f1.brs.focus();return false}
+else{return true}}
+
+</script>
+<form id="f1" action="admin.php" method="post" style="margin:0;padding:0" onsubmit="return form_sub()">
+<table><tr>
+<td style="vertical-align:top" class="navbar2">
+<div style="margin:10px;text-align:right;white-space:nowrap">
+<?php include 'admin/menu_stats.pxtm';?>
+</div></td><td style="vertical-align:top" class="content">
+<p></p>
+<div id="d1">
+<div class="title" style="float:left"><?php print $lang['u_online'];?></div>
+<p>&nbsp;</p>
+<table class="tbl">
+<tr><td class="tr0" colspan="4"></td></tr>
+<?php
+print $empt1; $tr=1;
+
+while($row=neutral_fetch_array($s_online)){
+
+$uname=htmrem($row['uname']); $zname=str_replace("'",'*',$uname); $uname='<b>'.$uname.'</b>';
+
+if($tr==1){$tr=2;}else{$tr=1;}
+print '<tr class="tr'.$tr.'">';
+print '<td><a href="admin.php?q=user&amp;u='.$row['uid'].'">'.$uname.'</a></td>';
+print '<td>'.$row['ip'].'</td>';
+print '<td><b><a href="admin.php?q=messages&amp;u='.$row['uid'].'" style="text-decoration:none">'.$lang['messages'].'</a> &middot; <a href="admin.php?q=messages&amp;u='.$row['uid'].'" style="text-decoration:none">'.$lang['paintings'].'</a></b></td>';
+print '<td><a href="#" onclick="wbn('.$row['uid'].',\''.$zname.'\',\''.$row['ip'].'\',2)">'.$lang['ban'].'</a>&nbsp;';
+print '(<a href="#" onclick="wbn('.$row['uid'].',\''.$zname.'\',\''.$row['ip'].'\',3)">'.$lang['ban_ip'].'</a>)</td>';
+print '</tr>';
+}
+?>
+<tr><td class="tr0" colspan="4"></td></tr>
+</table></div>
+<div id="d2" style="margin-top:5px;display:none">
+<input type="hidden" name="bid" value="" />
+<input type="hidden" name="bnm" value="" />
+<input type="hidden" name="bip" value="" />
+<input type="hidden" name="typ" value="" />
+<div class="tr2" style="text-align:justify;padding:12px;margin-top:5px">
+<span id="s1" style="display:none"><?php print $lang['s_warn'];?></span> 
+<span id="s2" style="display:none"><?php print $lang['s_ban'];?></span> <span id="s3" style="font-weight:bold;text-decoration:underline">xxx</span><span id="s4" style="display:none"></span>. 
+<?php print $lang['s_res'];?>
+</div>
+<br />
+<textarea name="brs" cols="30" rows="4" onblur="count_txt(this,128)" onkeypress="count_txt(this,128)" style="width:520px;height:40px"></textarea>
+<div id="sl" style="float:left;margin-top:5px">
+<select name="per">
+<option value="20">20 <?php print $lang['minutes'];?></option>
+<option value="120">2 <?php print $lang['hours'];?></option>
+<option value="2880">2 <?php print $lang['days'];?></option>
+<option value="20160">2 <?php print $lang['weeks'];?></option>
+</select>
+</div>
+<div style="float:right;margin-top:5px">
+<input type="button" class="btn" value="<?php print $lang['back'];?>" onclick="document.forms.f1.reset();document.getElementById('d2').style.display='none';document.getElementById('d1').style.display='block';" />
+<input type="button" class="btn" value="<?php print $lang['submit'];?>" onclick="fs=form_sub();if(fs){document.forms.f1.submit()}" />
+</div>
+<br style="clear:both" />
+<div class="tr2" style="text-align:justify;padding:12px;margin-top:5px"><?php print $lang['moduc2'];?></div>
+</div>
+</td></tr></table></form>

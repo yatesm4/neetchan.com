@@ -1,0 +1,31 @@
+<?php
+
+
+/* English */
+
+$lang=array();
+$lang['installing'] = 'Installing BlaB!';
+$lang['config_set'] = '<b>config.php</b> seems to have been set. This install expects an empty file, and will not continue.';
+$lang['config_chm'] = '<b>config.php</b> is not writeable. CHMOD it to 777 and reload the install.';
+$lang['mysqli_nps'] = '<b>MySQLi</b> not available. Install or enable the PHP MySQLi extension and reload the install.';
+$lang['tests_ok']   = 'All tests passed successfully. <b>MySQLi</b> available, <b>config.php</b> writeable and empty.';
+
+$lang['next']       = 'NEXT';
+$lang['step']       = 'STEP';
+$lang['submit']     = 'SUBMIT';
+$lang['testconn']   = 'TEST CONNECTION';
+$lang['dbok']       = 'DATABASE SETTING ARE OK!';
+$lang['inst_ok']    = 'INSTALL COMPLETED! <span class="pointer x_accent_fg" onclick="window.open(\'../login.php\')">LOGIN</span> OR GO TO <span class="pointer x_accent_fg" onclick="window.open(\'../admin.php\')">ADMIN CP</span>';
+
+$lang['dbhost']     = '<b>Database host</b>';
+$lang['dbname']     = '<b>Database name</b>';
+$lang['dbuser']     = '<b>Database user</b>';
+$lang['dbpass']     = '<b>Database password</b>';
+$lang['dbprfx']     = '<b>Table prefix</b>';
+$lang['dbsock']     = '<b>Database socket</b>';
+$lang['sock_desc']  = 'Leave &lt;<i>database socket</i>&gt; empty unless you connect to MySQL through sockets.';
+
+$lang['acp_key']    = 'Admin CP key';
+$lang['acp_key_r']  = 'Retype Admin CP key';
+
+?>

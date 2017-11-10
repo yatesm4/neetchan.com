@@ -1,0 +1,27 @@
+<?php
+
+require_once 'config.php';
+require_once 'incl/main.inc';
+
+dbconnect(); 
+
+$query="SHOW CHARACTER SET WHERE CHARSET='utf8mb4'";
+$result=neutral_query($query);
+if(neutral_num_rows($result)<1){print 'utf8mb4 not supported!';die();}
+
+print '<!DOCTYPE html><html><head><title>db to utf8mb4</title></head><body><pre>';
+
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_ban CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_iplog CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_lines CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_online CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_paintings CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_settings CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_style CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+$sql[]='ALTER TABLE '.$dbss['prfx'].'_users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci';
+
+for($i=0;$i<count($sql);$i++){neutral_query($sql[$i]);}
+
+print 'Database converted to utf8mb4 to support emoji...<br />Please set in <b>config.php</b>: $dbss[\'cset\']=\'utf8mb4\';</pre></body></html>';
+
+?>
