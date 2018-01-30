@@ -19,10 +19,10 @@ session_start();
 
 // set database vars -----------------------------------------------------------
 
-$db_name = "neetchan";
-$db_user = "neetchanUser";
-$db_pass = "Lw@(RU6lPBtB";
-$server = "localhost";
+$db_name = "REMOVED";
+$db_user = "REMOVED";
+$db_pass = "REMOVED";
+$server = "REMOVED";
 
 // connect to database ---------------------------------------------------------
 
